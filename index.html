@@ -34,7 +34,7 @@
     .pills-row { display:flex; align-items:center; gap:8px; }
     .pills { flex:1; display:flex; gap:10px; overflow-x:auto; padding:4px 0; scroll-behavior:smooth; }
     .no-scrollbar::-webkit-scrollbar { display:none; }
-    .no-scrollbar { scrollbar-width:none; }
+    .no-scrollbar { -ms-overflow-style:none; scrollbar-width:none; }
     .filter-pill { flex:none; border:1px solid rgba(74,29,43,.4); border-radius:999px; background:transparent; color:var(--wine); padding:6px 20px; font-size:12px; font-weight:600; white-space:nowrap; transition:.2s; }
     .filter-pill.active { background:var(--wine); color:var(--cream); border-color:var(--wine); }
     .arrow { flex:none; border:0; background:transparent; color:var(--wine); width:32px; height:32px; display:flex; align-items:center; justify-content:center; }
@@ -82,12 +82,7 @@
     <header class="hero">
       <img src="https://images.unsplash.com/photo-1503095396549-807759245b35?auto=format&fit=crop&w=900&q=80" alt="Sala principal del teatro">
       <div class="hero-overlay"></div>
-      <nav class="top-nav">
-        <a href="#" class="brand">Escena<span>.</span></a>
-        <button id="menuBtn" type="button" aria-label="Abrir menú" class="icon-btn">
-          <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/></svg>
-        </button>
-      </nav>
+      <nav class="top-nav"><a href="#" class="brand">Escena<span>.</span></a><button id="menuBtn" type="button" aria-label="Abrir menú" class="icon-btn"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/></svg></button></nav>
       <div class="avatar-wrap"><div class="avatar"><div class="avatar-inner">TP</div></div></div>
     </header>
 
@@ -101,7 +96,14 @@
 
     <section id="cartelera" class="pills-section"><div class="pills-row">
       <button type="button" class="arrow" onclick="scrollCarousel('pillsContainer', -140)" aria-label="Anterior"><svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg></button>
-      <div id="pillsContainer" class="pills no-scrollbar"><button type="button" class="filter-pill active">En cartelera</button><button type="button" class="filter-pill">Próximos estrenos</button><button type="button" class="filter-pill">Festivales</button><button type="button" class="filter-pill">Talleres</button></div>
+      <div id="pillsContainer" class="pills no-scrollbar">
+        <button type="button" class="filter-pill active">Musical</button>
+        <button type="button" class="filter-pill">Terror</button>
+        <button type="button" class="filter-pill">Drama</button>
+        <button type="button" class="filter-pill">Ballet</button>
+        <button type="button" class="filter-pill">Ópera</button>
+        <button type="button" class="filter-pill">Stand Up Comedy</button>
+      </div>
       <button type="button" class="arrow" onclick="scrollCarousel('pillsContainer', 140)" aria-label="Siguiente"><svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg></button>
     </div></section>
 

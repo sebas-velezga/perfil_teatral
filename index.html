@@ -4,222 +4,132 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Perfil Teatro — Cartelera Cultural</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            wine: '#4A1D2B',
-            tobacco: '#8C7A1B',
-            cream: '#EAE0D0',
-            creamLight: '#F4EDE2'
-          },
-          fontFamily: {
-            serif: ['"Cormorant Garamond"', 'serif'],
-            sans: ['"Plus Jakarta Sans"', 'sans-serif']
-          }
-        }
-      }
-    }
-  </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    html, body { margin: 0; }
-    body { background: #EAE0D0; }
-    .no-scrollbar::-webkit-scrollbar { display: none; }
-    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    :root { --wine:#4A1D2B; --tobacco:#8C7A1B; --cream:#EAE0D0; --cream-light:#F4EDE2; }
+    * { box-sizing:border-box; }
+    html, body { margin:0; min-height:100%; }
+    body { background:var(--cream); color:var(--wine); font-family:'Plus Jakarta Sans',sans-serif; display:flex; justify-content:center; }
+    button, a { font:inherit; }
+    button { cursor:pointer; }
+    .page { width:100%; max-width:448px; min-height:100vh; background:var(--cream); position:relative; overflow-x:hidden; padding-bottom:48px; box-shadow:0 25px 50px rgba(74,29,43,.18); }
+    .hero { position:relative; width:100%; height:256px; background:var(--wine); }
+    .hero > img { width:100%; height:100%; display:block; object-fit:cover; opacity:.65; mix-blend-mode:luminosity; }
+    .hero-overlay { position:absolute; inset:0; background:linear-gradient(to bottom,rgba(74,29,43,.7),rgba(74,29,43,.3),rgba(74,29,43,.85)); }
+    .top-nav { position:absolute; z-index:20; top:0; left:0; right:0; display:flex; align-items:center; justify-content:space-between; padding:20px 20px 0; }
+    .brand { color:var(--cream); font-family:'Cormorant Garamond',serif; font-size:24px; font-weight:700; letter-spacing:3px; text-decoration:none; text-transform:uppercase; }
+    .brand span { color:var(--tobacco); }
+    .icon-btn { border:0; background:transparent; color:inherit; padding:8px; display:flex; align-items:center; justify-content:center; }
+    .icon-btn svg { width:28px; height:28px; }
+    .avatar-wrap { position:absolute; z-index:20; left:50%; bottom:-44px; transform:translateX(-50%); }
+    .avatar { width:96px; height:96px; border-radius:50%; background:var(--cream); padding:6px; border:2px solid var(--tobacco); box-shadow:0 8px 18px rgba(0,0,0,.18); }
+    .avatar-inner { width:100%; height:100%; border-radius:50%; background:var(--wine); display:flex; align-items:center; justify-content:center; color:var(--cream); font-family:'Cormorant Garamond',serif; font-size:30px; font-weight:700; }
+    .intro { text-align:center; padding:56px 24px 0; }
+    .eyebrow { color:var(--tobacco); font-size:11px; font-weight:600; letter-spacing:2.2px; text-transform:uppercase; }
+    h1 { margin:4px 0 0; font-family:'Cormorant Garamond',serif; font-size:30px; line-height:1.1; }
+    .intro p { margin:12px 0 0; font-size:14px; line-height:1.7; }
+    .pills-section { margin-top:24px; padding:0 16px; }
+    .pills-row { display:flex; align-items:center; gap:8px; }
+    .pills { flex:1; display:flex; gap:10px; overflow-x:auto; padding:4px 0; scroll-behavior:smooth; }
+    .no-scrollbar::-webkit-scrollbar { display:none; }
+    .no-scrollbar { scrollbar-width:none; }
+    .filter-pill { flex:none; border:1px solid rgba(74,29,43,.4); border-radius:999px; background:transparent; color:var(--wine); padding:6px 20px; font-size:12px; font-weight:600; white-space:nowrap; transition:.2s; }
+    .filter-pill.active { background:var(--wine); color:var(--cream); border-color:var(--wine); }
+    .arrow { flex:none; border:0; background:transparent; color:var(--wine); width:32px; height:32px; display:flex; align-items:center; justify-content:center; }
+    .arrow svg { width:20px; height:20px; }
+    .shows-section { margin-top:24px; padding:0 12px; }
+    .shows-row { display:flex; align-items:center; }
+    .shows { flex:1; width:100%; display:flex; gap:14px; overflow-x:auto; padding:8px 0; scroll-behavior:smooth; }
+    .show-card { flex:0 0 47%; max-width:47%; background:var(--cream-light); border:1px solid rgba(74,29,43,.15); border-radius:12px; overflow:hidden; box-shadow:0 2px 6px rgba(74,29,43,.08); display:flex; flex-direction:column; justify-content:space-between; }
+    .show-image { height:112px; width:100%; background:var(--wine); overflow:hidden; }
+    .show-image img { width:100%; height:100%; object-fit:cover; display:block; }
+    .show-body { padding:12px; }
+    .show-body h2 { margin:0; font-family:'Cormorant Garamond',serif; font-size:18px; line-height:1.2; }
+    .show-body p { margin:6px 0 0; font-size:11px; line-height:1.55; }
+    .show-action { display:flex; justify-content:flex-end; padding:0 12px 12px; }
+    .show-action button { border:0; background:transparent; color:var(--tobacco); font-size:12px; font-weight:700; }
+    .experience { margin-top:32px; padding:0 24px; }
+    .experience h2 { margin:0; text-align:center; font-family:'Cormorant Garamond',serif; font-size:24px; text-transform:uppercase; }
+    .experience-banner { height:176px; margin-top:12px; position:relative; overflow:hidden; border:2px solid rgba(140,122,27,.6); border-radius:16px; background:var(--wine); }
+    .experience-banner > img { width:100%; height:100%; display:block; object-fit:cover; opacity:.8; }
+    .experience-overlay { position:absolute; inset:0; display:flex; flex-direction:column; justify-content:flex-end; padding:16px; color:var(--cream); background:linear-gradient(to top,var(--wine),rgba(74,29,43,.3),transparent); }
+    .location-tag { width:fit-content; border-radius:4px; background:var(--cream); color:var(--tobacco); padding:2px 8px; font-size:10px; font-weight:700; letter-spacing:2px; text-transform:uppercase; }
+    .experience-overlay p { margin:4px 0 0; font-family:'Cormorant Garamond',serif; font-size:18px; font-weight:600; }
+    .mobile-menu { position:fixed; z-index:50; inset:0; background:rgba(74,29,43,.96); color:var(--cream); display:flex; flex-direction:column; justify-content:space-between; padding:32px; }
+    .mobile-menu.hidden, .modal.hidden { display:none; }
+    .menu-head { display:flex; justify-content:space-between; align-items:center; }
+    .menu-head .brand { font-size:24px; }
+    .menu-links { list-style:none; margin:0; padding:0; text-align:center; }
+    .menu-links li { margin:24px 0; }
+    .menu-links a { color:var(--cream); font-family:'Cormorant Garamond',serif; font-size:30px; text-decoration:none; }
+    .menu-links a:hover { color:var(--tobacco); }
+    .menu-location { text-align:center; font-size:12px; letter-spacing:3px; text-transform:uppercase; opacity:.7; }
+    .modal { position:fixed; z-index:60; inset:0; background:rgba(74,29,43,.8); backdrop-filter:blur(4px); display:flex; align-items:center; justify-content:center; padding:20px; }
+    .modal-card { width:100%; max-width:384px; background:var(--cream); border:2px solid var(--tobacco); border-radius:16px; padding:24px; box-shadow:0 25px 50px rgba(0,0,0,.25); }
+    .modal-head { display:flex; justify-content:space-between; align-items:flex-start; gap:16px; }
+    .modal-head h3 { margin:0; font-family:'Cormorant Garamond',serif; font-size:24px; }
+    .close-x { border:0; background:transparent; color:var(--wine); font-size:20px; }
+    #modalSchedule { margin:4px 0 0; color:var(--tobacco); font-size:12px; font-weight:700; text-transform:uppercase; }
+    #modalInfo { margin:12px 0 0; font-size:14px; line-height:1.7; }
+    .reserve { width:100%; margin-top:24px; border:0; border-radius:999px; background:var(--wine); color:var(--cream); padding:10px 16px; font-size:12px; font-weight:700; text-transform:uppercase; }
+    .reserve:hover { background:var(--tobacco); }
   </style>
 </head>
-<body class="bg-cream text-wine font-sans antialiased flex justify-center min-h-screen">
-  <div class="w-full max-w-md bg-cream min-h-screen shadow-2xl relative pb-12 overflow-x-hidden">
-
-    <header class="relative w-full h-64 bg-wine">
-      <img
-        src="https://images.unsplash.com/photo-1503095396549-807759245b35?auto=format&fit=crop&w=900&q=80"
-        alt="Sala principal del teatro"
-        class="w-full h-full object-cover opacity-65 mix-blend-luminosity"
-      >
-      <div class="absolute inset-0 bg-gradient-to-b from-wine/70 via-wine/30 to-wine/85"></div>
-
-      <nav class="absolute top-0 left-0 right-0 flex items-center justify-between px-5 pt-5 z-20">
-        <a href="#" class="font-serif text-2xl font-bold tracking-wider text-cream uppercase">Escena<span class="text-tobacco">.</span></a>
-        <button id="menuBtn" type="button" aria-label="Abrir menú" class="p-2 text-cream hover:text-tobacco transition-colors">
-          <svg class="w-7 h-7" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/>
-          </svg>
+<body>
+  <div class="page">
+    <header class="hero">
+      <img src="https://images.unsplash.com/photo-1503095396549-807759245b35?auto=format&fit=crop&w=900&q=80" alt="Sala principal del teatro">
+      <div class="hero-overlay"></div>
+      <nav class="top-nav">
+        <a href="#" class="brand">Escena<span>.</span></a>
+        <button id="menuBtn" type="button" aria-label="Abrir menú" class="icon-btn">
+          <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/></svg>
         </button>
       </nav>
-
-      <div class="absolute -bottom-11 left-1/2 -translate-x-1/2 z-20">
-        <div class="w-24 h-24 rounded-full bg-cream p-1.5 shadow-lg border-2 border-tobacco">
-          <div class="w-full h-full rounded-full bg-wine flex items-center justify-center overflow-hidden">
-            <span class="font-serif text-3xl font-bold text-cream tracking-tighter">TP</span>
-          </div>
-        </div>
-      </div>
+      <div class="avatar-wrap"><div class="avatar"><div class="avatar-inner">TP</div></div></div>
     </header>
 
-    <div id="mobileMenu" class="hidden fixed inset-0 bg-wine/95 z-50 flex flex-col justify-between p-8 text-cream">
-      <div class="flex justify-between items-center">
-        <span class="font-serif text-2xl font-bold uppercase tracking-wider">Escena<span class="text-tobacco">.</span></span>
-        <button id="closeMenuBtn" type="button" aria-label="Cerrar menú" class="p-2 text-cream hover:text-tobacco">
-          <svg class="w-7 h-7" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
-          </svg>
-        </button>
-      </div>
-      <ul class="space-y-6 font-serif text-3xl text-center">
-        <li><a href="#cartelera" class="hover:text-tobacco transition">Cartelera Valle de Aburrá</a></li>
-        <li><a href="#experiencia" class="hover:text-tobacco transition">Teatros y Salas</a></li>
-        <li><a href="#" class="hover:text-tobacco transition">Mis Entradas</a></li>
-        <li><a href="#" class="hover:text-tobacco transition">Suscripción Cultural</a></li>
-      </ul>
-      <p class="text-center text-xs text-cream/70 tracking-widest uppercase">Medellín, Colombia</p>
+    <div id="mobileMenu" class="mobile-menu hidden">
+      <div class="menu-head"><span class="brand">Escena<span>.</span></span><button id="closeMenuBtn" type="button" aria-label="Cerrar menú" class="icon-btn"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg></button></div>
+      <ul class="menu-links"><li><a href="#cartelera">Cartelera Valle de Aburrá</a></li><li><a href="#experiencia">Teatros y Salas</a></li><li><a href="#">Mis Entradas</a></li><li><a href="#">Suscripción Cultural</a></li></ul>
+      <p class="menu-location">Medellín, Colombia</p>
     </div>
 
-    <section class="pt-14 px-6 text-center">
-      <span class="text-[11px] font-semibold uppercase tracking-[0.2em] text-tobacco">Sala Concertada • El Poblado</span>
-      <h1 class="font-serif text-3xl font-bold text-wine mt-1 leading-tight">Teatro Pablo Tobón Uribe</h1>
-      <p class="mt-3 text-sm text-wine/85 leading-relaxed">Referente cultural e histórico de Medellín dedicado a las artes escénicas, la dramaturgia contemporánea, la música de cámara y los encuentros ciudadanos.</p>
-    </section>
+    <section class="intro"><span class="eyebrow">Sala Concertada • El Poblado</span><h1>Teatro Pablo Tobón Uribe</h1><p>Referente cultural e histórico de Medellín dedicado a las artes escénicas, la dramaturgia contemporánea, la música de cámara y los encuentros ciudadanos.</p></section>
 
-    <section id="cartelera" class="mt-6 px-4">
-      <div class="flex items-center gap-2">
-        <button type="button" onclick="scrollCarousel('pillsContainer', -140)" aria-label="Anterior" class="p-1.5 text-wine hover:text-tobacco transition shrink-0">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
-        </button>
-        <div id="pillsContainer" class="flex gap-2.5 overflow-x-auto no-scrollbar scroll-smooth py-1">
-          <button type="button" class="filter-pill active px-5 py-1.5 rounded-full text-xs font-semibold tracking-wide bg-wine text-cream border border-wine whitespace-nowrap transition">En cartelera</button>
-          <button type="button" class="filter-pill px-5 py-1.5 rounded-full text-xs font-semibold tracking-wide bg-transparent text-wine border border-wine/40 whitespace-nowrap transition">Próximos estrenos</button>
-          <button type="button" class="filter-pill px-5 py-1.5 rounded-full text-xs font-semibold tracking-wide bg-transparent text-wine border border-wine/40 whitespace-nowrap transition">Festivales</button>
-          <button type="button" class="filter-pill px-5 py-1.5 rounded-full text-xs font-semibold tracking-wide bg-transparent text-wine border border-wine/40 whitespace-nowrap transition">Talleres</button>
-        </div>
-        <button type="button" onclick="scrollCarousel('pillsContainer', 140)" aria-label="Siguiente" class="p-1.5 text-wine hover:text-tobacco transition shrink-0">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
-        </button>
+    <section id="cartelera" class="pills-section"><div class="pills-row">
+      <button type="button" class="arrow" onclick="scrollCarousel('pillsContainer', -140)" aria-label="Anterior"><svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg></button>
+      <div id="pillsContainer" class="pills no-scrollbar"><button type="button" class="filter-pill active">En cartelera</button><button type="button" class="filter-pill">Próximos estrenos</button><button type="button" class="filter-pill">Festivales</button><button type="button" class="filter-pill">Talleres</button></div>
+      <button type="button" class="arrow" onclick="scrollCarousel('pillsContainer', 140)" aria-label="Siguiente"><svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg></button>
+    </div></section>
+
+    <section class="shows-section"><div class="shows-row">
+      <button type="button" class="arrow" onclick="scrollCarousel('showsContainer', -220)" aria-label="Obra anterior"><svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg></button>
+      <div id="showsContainer" class="shows no-scrollbar">
+        <article class="show-card"><div><div class="show-image"><img src="https://images.unsplash.com/photo-1507676184212-d03ab07a01bf?auto=format&fit=crop&w=500&q=80" alt="La Casa de Bernarda"></div><div class="show-body"><h2>La Casa de Bernarda</h2><p>Viernes y sábado • 8:00 p.m. Drama clásico contemporáneo sobre la libertad y el encierro familiar.</p></div></div><div class="show-action"><button type="button" onclick="openModal('La Casa de Bernarda', 'Viernes y sábado • 8:00 p.m.', 'Sala Principal • Boletas desde $45.000 COP')">ver +</button></div></article>
+        <article class="show-card"><div><div class="show-image"><img src="https://images.unsplash.com/photo-1514306191717-452ec28c7814?auto=format&fit=crop&w=500&q=80" alt="Noche de Monólogos"></div><div class="show-body"><h2>Noche de Monólogos</h2><p>Jueves • 7:30 p.m. Tres historias urbanas íntimas interpretadas por talentos locales de Antioquia.</p></div></div><div class="show-action"><button type="button" onclick="openModal('Noche de Monólogos', 'Jueves • 7:30 p.m.', 'Café Teatro • Boletas desde $35.000 COP')">ver +</button></div></article>
+        <article class="show-card"><div><div class="show-image"><img src="https://images.unsplash.com/photo-1460723237483-7a6dc9d0b212?auto=format&fit=crop&w=500&q=80" alt="Ensamble Nocturno"></div><div class="show-body"><h2>Ensamble Nocturno</h2><p>Domingo • 5:00 p.m. Concierto teatralizado con cuerdas y percusión en vivo bajo luz tenue.</p></div></div><div class="show-action"><button type="button" onclick="openModal('Ensamble Nocturno', 'Domingo • 5:00 p.m.', 'Sala Principal • Boletas desde $50.000 COP')">ver +</button></div></article>
       </div>
-    </section>
+      <button type="button" class="arrow" onclick="scrollCarousel('showsContainer', 220)" aria-label="Siguiente obra"><svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg></button>
+    </div></section>
 
-    <section class="mt-6 px-3 relative">
-      <div class="flex items-center">
-        <button type="button" onclick="scrollCarousel('showsContainer', -220)" aria-label="Obra anterior" class="p-1 text-wine hover:text-tobacco transition shrink-0 z-10">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
-        </button>
+    <section id="experiencia" class="experience"><h2>Experiencia en Sala</h2><div class="experience-banner"><img src="https://images.unsplash.com/photo-1516307365426-bea591f05011?auto=format&fit=crop&w=900&q=80" alt="Butacas y arquitectura del teatro"><div class="experience-overlay"><span class="location-tag">Mapa y Ubicación</span><p>Cra. 40 # 51-24, Medellín • Cafetería y Parqueadero</p></div></div></section>
 
-        <div id="showsContainer" class="flex gap-3.5 overflow-x-auto no-scrollbar scroll-smooth py-2 w-full">
-          <article class="min-w-[47%] max-w-[47%] bg-creamLight rounded-xl border border-wine/15 overflow-hidden shadow-sm flex flex-col justify-between">
-            <div>
-              <div class="h-28 w-full bg-wine overflow-hidden"><img src="https://images.unsplash.com/photo-1507676184212-d03ab07a01bf?auto=format&fit=crop&w=500&q=80" alt="La Casa de Bernarda" class="w-full h-full object-cover"></div>
-              <div class="p-3"><h2 class="font-serif text-lg font-bold text-wine leading-snug">La Casa de Bernarda</h2><p class="mt-1.5 text-[11px] text-wine/80 leading-relaxed line-clamp-3">Viernes y sábado • 8:00 p.m. Drama clásico contemporáneo sobre la libertad y el encierro familiar.</p></div>
-            </div>
-            <div class="px-3 pb-3 flex justify-end"><button type="button" onclick="openModal('La Casa de Bernarda', 'Viernes y sábado • 8:00 p.m.', 'Sala Principal • Boletas desde $45.000 COP')" class="text-xs font-bold text-tobacco hover:text-wine tracking-wide transition">ver +</button></div>
-          </article>
-
-          <article class="min-w-[47%] max-w-[47%] bg-creamLight rounded-xl border border-wine/15 overflow-hidden shadow-sm flex flex-col justify-between">
-            <div>
-              <div class="h-28 w-full bg-wine overflow-hidden"><img src="https://images.unsplash.com/photo-1514306191717-452ec28c7814?auto=format&fit=crop&w=500&q=80" alt="Noche de Monólogos" class="w-full h-full object-cover"></div>
-              <div class="p-3"><h2 class="font-serif text-lg font-bold text-wine leading-snug">Noche de Monólogos</h2><p class="mt-1.5 text-[11px] text-wine/80 leading-relaxed line-clamp-3">Jueves • 7:30 p.m. Tres historias urbanas íntimas interpretadas por talentos locales de Antioquia.</p></div>
-            </div>
-            <div class="px-3 pb-3 flex justify-end"><button type="button" onclick="openModal('Noche de Monólogos', 'Jueves • 7:30 p.m.', 'Café Teatro • Boletas desde $35.000 COP')" class="text-xs font-bold text-tobacco hover:text-wine tracking-wide transition">ver +</button></div>
-          </article>
-
-          <article class="min-w-[47%] max-w-[47%] bg-creamLight rounded-xl border border-wine/15 overflow-hidden shadow-sm flex flex-col justify-between">
-            <div>
-              <div class="h-28 w-full bg-wine overflow-hidden"><img src="https://images.unsplash.com/photo-1460723237483-7a6dc9d0b212?auto=format&fit=crop&w=500&q=80" alt="Ensamble Nocturno" class="w-full h-full object-cover"></div>
-              <div class="p-3"><h2 class="font-serif text-lg font-bold text-wine leading-snug">Ensamble Nocturno</h2><p class="mt-1.5 text-[11px] text-wine/80 leading-relaxed line-clamp-3">Domingo • 5:00 p.m. Concierto teatralizado con cuerdas y percusión en vivo bajo luz tenue.</p></div>
-            </div>
-            <div class="px-3 pb-3 flex justify-end"><button type="button" onclick="openModal('Ensamble Nocturno', 'Domingo • 5:00 p.m.', 'Sala Principal • Boletas desde $50.000 COP')" class="text-xs font-bold text-tobacco hover:text-wine tracking-wide transition">ver +</button></div>
-          </article>
-        </div>
-
-        <button type="button" onclick="scrollCarousel('showsContainer', 220)" aria-label="Siguiente obra" class="p-1 text-wine hover:text-tobacco transition shrink-0 z-10">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
-        </button>
-      </div>
-    </section>
-
-    <section id="experiencia" class="mt-8 px-6">
-      <h2 class="font-serif text-2xl font-bold text-wine text-center tracking-wide uppercase">Experiencia en Sala</h2>
-      <div class="mt-3 relative rounded-2xl overflow-hidden border-2 border-tobacco/60 shadow-md h-44 bg-wine">
-        <img src="https://images.unsplash.com/photo-1516307365426-bea591f05011?auto=format&fit=crop&w=900&q=80" alt="Butacas y arquitectura del teatro" class="w-full h-full object-cover opacity-80">
-        <div class="absolute inset-0 bg-gradient-to-t from-wine via-wine/30 to-transparent flex flex-col justify-end p-4 text-cream">
-          <span class="text-[10px] uppercase tracking-widest text-tobacco font-bold bg-cream px-2 py-0.5 rounded w-fit">Mapa y Ubicación</span>
-          <p class="font-serif text-lg font-semibold mt-1">Cra. 40 # 51-24, Medellín • Cafetería y Parqueadero</p>
-        </div>
-      </div>
-    </section>
-
-    <div id="detailModal" class="hidden fixed inset-0 bg-wine/80 backdrop-blur-sm z-50 flex items-center justify-center p-5">
-      <div class="bg-cream border-2 border-tobacco rounded-2xl max-w-sm w-full p-6 shadow-2xl">
-        <div class="flex justify-between items-start gap-4">
-          <h3 id="modalTitle" class="font-serif text-2xl font-bold text-wine">Título de la obra</h3>
-          <button type="button" onclick="closeModal()" aria-label="Cerrar" class="text-wine/70 hover:text-wine font-bold text-lg">✕</button>
-        </div>
-        <p id="modalSchedule" class="text-xs font-semibold text-tobacco uppercase tracking-wider mt-1"></p>
-        <p id="modalInfo" class="text-sm text-wine/90 mt-3 leading-relaxed"></p>
-        <button type="button" onclick="closeModal()" class="mt-6 w-full py-2.5 rounded-full bg-wine text-cream text-xs font-semibold uppercase tracking-wider hover:bg-tobacco transition">Reservar Boleta</button>
-      </div>
-    </div>
+    <div id="detailModal" class="modal hidden"><div class="modal-card"><div class="modal-head"><h3 id="modalTitle">Título de la obra</h3><button type="button" onclick="closeModal()" aria-label="Cerrar" class="close-x">✕</button></div><p id="modalSchedule"></p><p id="modalInfo"></p><button type="button" onclick="closeModal()" class="reserve">Reservar Boleta</button></div></div>
   </div>
 
   <script>
-    function scrollCarousel(containerId, amount) {
-      const container = document.getElementById(containerId);
-      if (container) container.scrollBy({ left: amount, behavior: 'smooth' });
-    }
-
-    const pills = document.querySelectorAll('.filter-pill');
-    pills.forEach(pill => {
-      pill.addEventListener('click', () => {
-        pills.forEach(p => {
-          p.classList.remove('bg-wine', 'text-cream', 'border-wine');
-          p.classList.add('bg-transparent', 'text-wine', 'border-wine/40');
-        });
-        pill.classList.remove('bg-transparent', 'text-wine', 'border-wine/40');
-        pill.classList.add('bg-wine', 'text-cream', 'border-wine');
-      });
-    });
-
-    const menuBtn = document.getElementById('menuBtn');
-    const closeMenuBtn = document.getElementById('closeMenuBtn');
-    const mobileMenu = document.getElementById('mobileMenu');
-
-    menuBtn.addEventListener('click', () => {
-      mobileMenu.classList.remove('hidden');
-      document.body.style.overflow = 'hidden';
-    });
-    closeMenuBtn.addEventListener('click', () => {
-      mobileMenu.classList.add('hidden');
-      document.body.style.overflow = '';
-    });
-
-    function openModal(title, schedule, info) {
-      document.getElementById('modalTitle').textContent = title;
-      document.getElementById('modalSchedule').textContent = schedule;
-      document.getElementById('modalInfo').textContent = info;
-      document.getElementById('detailModal').classList.remove('hidden');
-      document.body.style.overflow = 'hidden';
-    }
-
-    function closeModal() {
-      document.getElementById('detailModal').classList.add('hidden');
-      document.body.style.overflow = '';
-    }
-
-    document.getElementById('detailModal').addEventListener('click', event => {
-      if (event.target.id === 'detailModal') closeModal();
-    });
-
-    document.addEventListener('keydown', event => {
-      if (event.key === 'Escape') {
-        closeModal();
-        mobileMenu.classList.add('hidden');
-        document.body.style.overflow = '';
-      }
-    });
+    function scrollCarousel(containerId, amount) { const c=document.getElementById(containerId); if(c) c.scrollBy({left:amount,behavior:'smooth'}); }
+    const pills=document.querySelectorAll('.filter-pill'); pills.forEach(pill=>pill.addEventListener('click',()=>{pills.forEach(p=>p.classList.remove('active'));pill.classList.add('active');}));
+    const menuBtn=document.getElementById('menuBtn'), closeMenuBtn=document.getElementById('closeMenuBtn'), mobileMenu=document.getElementById('mobileMenu');
+    menuBtn.addEventListener('click',()=>{mobileMenu.classList.remove('hidden');document.body.style.overflow='hidden';});
+    closeMenuBtn.addEventListener('click',()=>{mobileMenu.classList.add('hidden');document.body.style.overflow='';});
+    function openModal(title,schedule,info){document.getElementById('modalTitle').textContent=title;document.getElementById('modalSchedule').textContent=schedule;document.getElementById('modalInfo').textContent=info;document.getElementById('detailModal').classList.remove('hidden');document.body.style.overflow='hidden';}
+    function closeModal(){document.getElementById('detailModal').classList.add('hidden');document.body.style.overflow='';}
+    document.getElementById('detailModal').addEventListener('click',e=>{if(e.target.id==='detailModal')closeModal();});
+    document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeModal();mobileMenu.classList.add('hidden');document.body.style.overflow='';}});
   </script>
 </body>
 </html>

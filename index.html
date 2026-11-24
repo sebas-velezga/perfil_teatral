@@ -32,16 +32,16 @@
     .intro p { margin:12px 0 0; font-size:14px; line-height:1.7; }
     .pills-section { margin-top:24px; padding:0 16px; }
     .pills-row { display:flex; align-items:center; gap:8px; }
-    .pills { flex:1; display:flex; gap:10px; overflow-x:auto; padding:4px 0; scroll-behavior:smooth; }
-    .no-scrollbar::-webkit-scrollbar { display:none; }
-    .no-scrollbar { -ms-overflow-style:none; scrollbar-width:none; }
-    .filter-pill { flex:none; border:1px solid rgba(74,29,43,.4); border-radius:999px; background:transparent; color:var(--wine); padding:6px 20px; font-size:12px; font-weight:600; white-space:nowrap; transition:.2s; }
-    .filter-pill.active { background:var(--wine); color:var(--cream); border-color:var(--wine); }
+    .pills { flex:1; min-width:0; display:flex; align-items:center; gap:14px; overflow:hidden; padding:10px 0; }
+    .filter-pill { flex:none; border:1px solid rgba(74,29,43,.4); border-radius:999px; background:transparent; color:var(--wine); padding:9px 22px; font-size:14px; font-weight:600; white-space:nowrap; opacity:.55; filter:blur(2px); transition:opacity .25s ease,filter .25s ease,background .25s ease,color .25s ease; }
+    .filter-pill.active { background:var(--wine); color:var(--cream); border-color:var(--wine); opacity:1; filter:none; position:relative; z-index:1; }
     .arrow { flex:none; border:0; background:transparent; color:var(--wine); width:32px; height:32px; display:flex; align-items:center; justify-content:center; }
-    .arrow svg { width:20px; height:20px; }
+    .arrow svg { width:24px; height:24px; }
     .shows-section { margin-top:24px; padding:0 12px; }
     .shows-row { display:flex; align-items:center; }
     .shows { flex:1; width:100%; display:flex; gap:14px; overflow-x:auto; padding:8px 0; scroll-behavior:smooth; }
+    .no-scrollbar::-webkit-scrollbar { display:none; }
+    .no-scrollbar { -ms-overflow-style:none; scrollbar-width:none; }
     .show-card { flex:0 0 47%; max-width:47%; background:var(--cream-light); border:1px solid rgba(74,29,43,.15); border-radius:12px; overflow:hidden; box-shadow:0 2px 6px rgba(74,29,43,.08); display:flex; flex-direction:column; justify-content:space-between; }
     .show-image { height:112px; width:100%; background:var(--wine); overflow:hidden; }
     .show-image img { width:100%; height:100%; object-fit:cover; display:block; }
@@ -60,7 +60,6 @@
     .mobile-menu { position:fixed; z-index:50; inset:0; background:rgba(74,29,43,.96); color:var(--cream); display:flex; flex-direction:column; justify-content:space-between; padding:32px; }
     .mobile-menu.hidden, .modal.hidden { display:none; }
     .menu-head { display:flex; justify-content:space-between; align-items:center; }
-    .menu-head .brand { font-size:24px; }
     .menu-links { list-style:none; margin:0; padding:0; text-align:center; }
     .menu-links li { margin:24px 0; }
     .menu-links a { color:var(--cream); font-family:'Cormorant Garamond',serif; font-size:30px; text-decoration:none; }
@@ -75,6 +74,7 @@
     #modalInfo { margin:12px 0 0; font-size:14px; line-height:1.7; }
     .reserve { width:100%; margin-top:24px; border:0; border-radius:999px; background:var(--wine); color:var(--cream); padding:10px 16px; font-size:12px; font-weight:700; text-transform:uppercase; }
     .reserve:hover { background:var(--tobacco); }
+    @media (max-width:380px) { .pills-section { padding:0 10px; } .pills { gap:10px; } .filter-pill { padding:8px 16px; font-size:13px; } }
   </style>
 </head>
 <body>
@@ -95,8 +95,8 @@
     <section class="intro"><span class="eyebrow">Sala Concertada • El Poblado</span><h1>Teatro Pablo Tobón Uribe</h1><p>Referente cultural e histórico de Medellín dedicado a las artes escénicas, la dramaturgia contemporánea, la música de cámara y los encuentros ciudadanos.</p></section>
 
     <section id="cartelera" class="pills-section"><div class="pills-row">
-      <button type="button" class="arrow" onclick="scrollCarousel('pillsContainer', -140)" aria-label="Anterior"><svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg></button>
-      <div id="pillsContainer" class="pills no-scrollbar">
+      <button type="button" class="arrow" onclick="moveGenre(-1)" aria-label="Género anterior"><svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg></button>
+      <div id="pillsContainer" class="pills">
         <button type="button" class="filter-pill active">Musical</button>
         <button type="button" class="filter-pill">Terror</button>
         <button type="button" class="filter-pill">Drama</button>
@@ -104,7 +104,7 @@
         <button type="button" class="filter-pill">Ópera</button>
         <button type="button" class="filter-pill">Stand Up Comedy</button>
       </div>
-      <button type="button" class="arrow" onclick="scrollCarousel('pillsContainer', 140)" aria-label="Siguiente"><svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg></button>
+      <button type="button" class="arrow" onclick="moveGenre(1)" aria-label="Siguiente género"><svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg></button>
     </div></section>
 
     <section class="shows-section"><div class="shows-row">
@@ -123,15 +123,50 @@
   </div>
 
   <script>
-    function scrollCarousel(containerId, amount) { const c=document.getElementById(containerId); if(c) c.scrollBy({left:amount,behavior:'smooth'}); }
-    const pills=document.querySelectorAll('.filter-pill'); pills.forEach(pill=>pill.addEventListener('click',()=>{pills.forEach(p=>p.classList.remove('active'));pill.classList.add('active');}));
-    const menuBtn=document.getElementById('menuBtn'), closeMenuBtn=document.getElementById('closeMenuBtn'), mobileMenu=document.getElementById('mobileMenu');
-    menuBtn.addEventListener('click',()=>{mobileMenu.classList.remove('hidden');document.body.style.overflow='hidden';});
-    closeMenuBtn.addEventListener('click',()=>{mobileMenu.classList.add('hidden');document.body.style.overflow='';});
-    function openModal(title,schedule,info){document.getElementById('modalTitle').textContent=title;document.getElementById('modalSchedule').textContent=schedule;document.getElementById('modalInfo').textContent=info;document.getElementById('detailModal').classList.remove('hidden');document.body.style.overflow='hidden';}
-    function closeModal(){document.getElementById('detailModal').classList.add('hidden');document.body.style.overflow='';}
-    document.getElementById('detailModal').addEventListener('click',e=>{if(e.target.id==='detailModal')closeModal();});
-    document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeModal();mobileMenu.classList.add('hidden');document.body.style.overflow='';}});
+    const genrePills = Array.from(document.querySelectorAll('.filter-pill'));
+    const pillsContainer = document.getElementById('pillsContainer');
+    let selectedGenre = 0;
+
+    function centerGenre(index) {
+      selectedGenre = (index + genrePills.length) % genrePills.length;
+      genrePills.forEach((pill, i) => {
+        const selected = i === selectedGenre;
+        pill.classList.toggle('active', selected);
+        pill.setAttribute('aria-pressed', String(selected));
+      });
+      const pill = genrePills[selectedGenre];
+      const left = pill.offsetLeft + pill.offsetWidth / 2 - pillsContainer.clientWidth / 2;
+      pillsContainer.scrollTo({ left, behavior: 'smooth' });
+    }
+
+    function moveGenre(direction) { centerGenre(selectedGenre + direction); }
+    genrePills.forEach((pill, index) => pill.addEventListener('click', () => centerGenre(index)));
+    window.addEventListener('load', () => centerGenre(selectedGenre));
+    window.addEventListener('resize', () => centerGenre(selectedGenre));
+
+    function scrollCarousel(containerId, amount) {
+      const container = document.getElementById(containerId);
+      if (container) container.scrollBy({ left:amount, behavior:'smooth' });
+    }
+
+    const menuBtn = document.getElementById('menuBtn');
+    const closeMenuBtn = document.getElementById('closeMenuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    menuBtn.addEventListener('click', () => { mobileMenu.classList.remove('hidden'); document.body.style.overflow='hidden'; });
+    closeMenuBtn.addEventListener('click', () => { mobileMenu.classList.add('hidden'); document.body.style.overflow=''; });
+
+    function openModal(title, schedule, info) {
+      document.getElementById('modalTitle').textContent = title;
+      document.getElementById('modalSchedule').textContent = schedule;
+      document.getElementById('modalInfo').textContent = info;
+      document.getElementById('detailModal').classList.remove('hidden');
+      document.body.style.overflow='hidden';
+    }
+    function closeModal() { document.getElementById('detailModal').classList.add('hidden'); document.body.style.overflow=''; }
+    document.getElementById('detailModal').addEventListener('click', event => { if (event.target.id === 'detailModal') closeModal(); });
+    document.addEventListener('keydown', event => {
+      if (event.key === 'Escape') { closeModal(); mobileMenu.classList.add('hidden'); document.body.style.overflow=''; }
+    });
   </script>
 </body>
 </html>

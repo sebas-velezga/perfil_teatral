@@ -5,66 +5,54 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Perfil Teatro — Cartelera Cultural</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <script>
     tailwind.config = {
       theme: {
         extend: {
           colors: {
-            wine: '#4A1D2B',      /* PANTONE 19-1528 TCX Windsor Wine */
-            tobacco: '#8C7A1B',   /* PANTONE 18-0835 TCX Dried Tobacco */
-            cream: '#EAE0D0',     /* PANTONE 11-0110 TCX Buttercream */
+            wine: '#4A1D2B',
+            tobacco: '#8C7A1B',
+            cream: '#EAE0D0',
             creamLight: '#F4EDE2'
           },
           fontFamily: {
             serif: ['"Cormorant Garamond"', 'serif'],
-            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            sans: ['"Plus Jakarta Sans"', 'sans-serif']
           }
         }
       }
     }
   </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    /* Ocultar barras de desplazamiento en carruseles horizontales */
-    .no-scrollbar::-webkit-scrollbar {
-      display: none;
-    }
-    .no-scrollbar {
-      -ms-overflow-style: none;
-      scrollbar-width: none;
-    }
+    html, body { margin: 0; }
+    body { background: #EAE0D0; }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
   </style>
 </head>
 <body class="bg-cream text-wine font-sans antialiased flex justify-center min-h-screen">
-
-  <!-- Contenedor Mobile-First -->
   <div class="w-full max-w-md bg-cream min-h-screen shadow-2xl relative pb-12 overflow-x-hidden">
 
-    <!-- 1. HERO / PORTADA DEL TEATRO (Con Logo superior izquierdo y Menú hamburguesa derecho) -->
     <header class="relative w-full h-64 bg-wine">
-      <!-- Imagen de portada del teatro -->
-      <img 
-        src="https://images.unsplash.com/photo-1503095396549-807759245b35?auto=format&fit=crop&w=900&q=80" 
-        alt="Sala principal del teatro" 
+      <img
+        src="https://images.unsplash.com/photo-1503095396549-807759245b35?auto=format&fit=crop&w=900&q=80"
+        alt="Sala principal del teatro"
         class="w-full h-full object-cover opacity-65 mix-blend-luminosity"
       >
       <div class="absolute inset-0 bg-gradient-to-b from-wine/70 via-wine/30 to-wine/85"></div>
 
-      <!-- Barra superior: Logo y Menú Hamburguesa -->
       <nav class="absolute top-0 left-0 right-0 flex items-center justify-between px-5 pt-5 z-20">
-        <a href="#" class="font-serif text-2xl font-bold tracking-wider text-cream uppercase">
-          Escena<span class="text-tobacco">.</span>
-        </a>
-        <button id="menuBtn" aria-label="Abrir menú" class="p-2 text-cream hover:text-tobacco transition-colors">
+        <a href="#" class="font-serif text-2xl font-bold tracking-wider text-cream uppercase">Escena<span class="text-tobacco">.</span></a>
+        <button id="menuBtn" type="button" aria-label="Abrir menú" class="p-2 text-cream hover:text-tobacco transition-colors">
           <svg class="w-7 h-7" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/>
           </svg>
         </button>
       </nav>
 
-      <!-- Avatar / Emblema Circular Superpuesto en el Borde Inferior -->
       <div class="absolute -bottom-11 left-1/2 -translate-x-1/2 z-20">
         <div class="w-24 h-24 rounded-full bg-cream p-1.5 shadow-lg border-2 border-tobacco">
           <div class="w-full h-full rounded-full bg-wine flex items-center justify-center overflow-hidden">
@@ -74,207 +62,115 @@
       </div>
     </header>
 
-    <!-- Menú Desplegable Oculto -->
     <div id="mobileMenu" class="hidden fixed inset-0 bg-wine/95 z-50 flex flex-col justify-between p-8 text-cream">
       <div class="flex justify-between items-center">
         <span class="font-serif text-2xl font-bold uppercase tracking-wider">Escena<span class="text-tobacco">.</span></span>
-        <button id="closeMenuBtn" class="p-2 text-cream hover:text-tobacco">
+        <button id="closeMenuBtn" type="button" aria-label="Cerrar menú" class="p-2 text-cream hover:text-tobacco">
           <svg class="w-7 h-7" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
           </svg>
         </button>
       </div>
       <ul class="space-y-6 font-serif text-3xl text-center">
-        <li><a href="#" class="hover:text-tobacco transition">Cartelera Valle de Aburrá</a></li>
-        <li><a href="#" class="hover:text-tobacco transition">Teatros y Salas</a></li>
+        <li><a href="#cartelera" class="hover:text-tobacco transition">Cartelera Valle de Aburrá</a></li>
+        <li><a href="#experiencia" class="hover:text-tobacco transition">Teatros y Salas</a></li>
         <li><a href="#" class="hover:text-tobacco transition">Mis Entradas</a></li>
         <li><a href="#" class="hover:text-tobacco transition">Suscripción Cultural</a></li>
       </ul>
       <p class="text-center text-xs text-cream/70 tracking-widest uppercase">Medellín, Colombia</p>
     </div>
 
-    <!-- 2. INFORMACIÓN DEL TEATRO (Título y Descripción) -->
     <section class="pt-14 px-6 text-center">
       <span class="text-[11px] font-semibold uppercase tracking-[0.2em] text-tobacco">Sala Concertada • El Poblado</span>
-      <h1 class="font-serif text-3xl font-bold text-wine mt-1 leading-tight">
-        Teatro Pablo Tobón Uribe
-      </h1>
-      <p class="mt-3 text-sm text-wine/85 leading-relaxed">
-        Referente cultural e histórico de Medellín dedicado a las artes escénicas, la dramaturgia contemporánea, la música de cámara y los encuentros ciudadanos.
-      </p>
+      <h1 class="font-serif text-3xl font-bold text-wine mt-1 leading-tight">Teatro Pablo Tobón Uribe</h1>
+      <p class="mt-3 text-sm text-wine/85 leading-relaxed">Referente cultural e histórico de Medellín dedicado a las artes escénicas, la dramaturgia contemporánea, la música de cámara y los encuentros ciudadanos.</p>
     </section>
 
-    <!-- 3. CARRUSEL DE CATEGORÍAS / PÍLDORAS CON FLECHAS (< título   titulo >) -->
-    <section class="mt-6 px-4">
+    <section id="cartelera" class="mt-6 px-4">
       <div class="flex items-center gap-2">
-        <button onclick="scrollCarousel('pillsContainer', -140)" aria-label="Anterior" class="p-1.5 text-wine hover:text-tobacco transition shrink-0">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/>
-          </svg>
+        <button type="button" onclick="scrollCarousel('pillsContainer', -140)" aria-label="Anterior" class="p-1.5 text-wine hover:text-tobacco transition shrink-0">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
         </button>
-
         <div id="pillsContainer" class="flex gap-2.5 overflow-x-auto no-scrollbar scroll-smooth py-1">
-          <button class="filter-pill active px-5 py-1.5 rounded-full text-xs font-semibold tracking-wide bg-wine text-cream border border-wine whitespace-nowrap transition">
-            En cartelera
-          </button>
-          <button class="filter-pill px-5 py-1.5 rounded-full text-xs font-semibold tracking-wide bg-transparent text-wine border border-wine/40 hover:border-wine whitespace-nowrap transition">
-            Próximos estrenos
-          </button>
-          <button class="filter-pill px-5 py-1.5 rounded-full text-xs font-semibold tracking-wide bg-transparent text-wine border border-wine/40 hover:border-wine whitespace-nowrap transition">
-            Festivales
-          </button>
-          <button class="filter-pill px-5 py-1.5 rounded-full text-xs font-semibold tracking-wide bg-transparent text-wine border border-wine/40 hover:border-wine whitespace-nowrap transition">
-            Talleres
-          </button>
+          <button type="button" class="filter-pill active px-5 py-1.5 rounded-full text-xs font-semibold tracking-wide bg-wine text-cream border border-wine whitespace-nowrap transition">En cartelera</button>
+          <button type="button" class="filter-pill px-5 py-1.5 rounded-full text-xs font-semibold tracking-wide bg-transparent text-wine border border-wine/40 whitespace-nowrap transition">Próximos estrenos</button>
+          <button type="button" class="filter-pill px-5 py-1.5 rounded-full text-xs font-semibold tracking-wide bg-transparent text-wine border border-wine/40 whitespace-nowrap transition">Festivales</button>
+          <button type="button" class="filter-pill px-5 py-1.5 rounded-full text-xs font-semibold tracking-wide bg-transparent text-wine border border-wine/40 whitespace-nowrap transition">Talleres</button>
         </div>
-
-        <button onclick="scrollCarousel('pillsContainer', 140)" aria-label="Siguiente" class="p-1.5 text-wine hover:text-tobacco transition shrink-0">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
-          </svg>
+        <button type="button" onclick="scrollCarousel('pillsContainer', 140)" aria-label="Siguiente" class="p-1.5 text-wine hover:text-tobacco transition shrink-0">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
         </button>
       </div>
     </section>
 
-    <!-- 4. CARRUSEL DE OBRAS (Tarjetas con imagen, título, 3 líneas de detalle y botón 'ver +') -->
     <section class="mt-6 px-3 relative">
       <div class="flex items-center">
-        <!-- Flecha Izquierda -->
-        <button onclick="scrollCarousel('showsContainer', -220)" aria-label="Obra anterior" class="p-1 text-wine hover:text-tobacco transition shrink-0 z-10">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/>
-          </svg>
+        <button type="button" onclick="scrollCarousel('showsContainer', -220)" aria-label="Obra anterior" class="p-1 text-wine hover:text-tobacco transition shrink-0 z-10">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
         </button>
 
-        <!-- Contenedor de 2 columnas visibles con scroll horizontal -->
         <div id="showsContainer" class="flex gap-3.5 overflow-x-auto no-scrollbar scroll-smooth py-2 w-full">
-          
-          <!-- Tarjeta 1 -->
           <article class="min-w-[47%] max-w-[47%] bg-creamLight rounded-xl border border-wine/15 overflow-hidden shadow-sm flex flex-col justify-between">
             <div>
-              <div class="h-28 w-full bg-wine overflow-hidden">
-                <img src="https://images.unsplash.com/photo-1507676184212-d03ab07a01bf?auto=format&fit=crop&w=500&q=80" alt="La Casa de Bernarda" class="w-full h-full object-cover">
-              </div>
-              <div class="p-3">
-                <h2 class="font-serif text-lg font-bold text-wine leading-snug">
-                  La Casa de Bernarda
-                </h2>
-                <p class="mt-1.5 text-[11px] text-wine/80 leading-relaxed line-clamp-3">
-                  Viernes y sábado • 8:00 p.m. Drama clásico contemporáneo sobre la libertad y el encierro familiar.
-                </p>
-              </div>
+              <div class="h-28 w-full bg-wine overflow-hidden"><img src="https://images.unsplash.com/photo-1507676184212-d03ab07a01bf?auto=format&fit=crop&w=500&q=80" alt="La Casa de Bernarda" class="w-full h-full object-cover"></div>
+              <div class="p-3"><h2 class="font-serif text-lg font-bold text-wine leading-snug">La Casa de Bernarda</h2><p class="mt-1.5 text-[11px] text-wine/80 leading-relaxed line-clamp-3">Viernes y sábado • 8:00 p.m. Drama clásico contemporáneo sobre la libertad y el encierro familiar.</p></div>
             </div>
-            <div class="px-3 pb-3 flex justify-end">
-              <button onclick="openModal('La Casa de Bernarda', 'Viernes y sábado • 8:00 p.m.', 'Sala Principal • Boletas desde $45.000 COP')" class="text-xs font-bold text-tobacco hover:text-wine tracking-wide transition">
-                ver +
-              </button>
-            </div>
+            <div class="px-3 pb-3 flex justify-end"><button type="button" onclick="openModal('La Casa de Bernarda', 'Viernes y sábado • 8:00 p.m.', 'Sala Principal • Boletas desde $45.000 COP')" class="text-xs font-bold text-tobacco hover:text-wine tracking-wide transition">ver +</button></div>
           </article>
 
-          <!-- Tarjeta 2 -->
           <article class="min-w-[47%] max-w-[47%] bg-creamLight rounded-xl border border-wine/15 overflow-hidden shadow-sm flex flex-col justify-between">
             <div>
-              <div class="h-28 w-full bg-wine overflow-hidden">
-                <img src="https://images.unsplash.com/photo-1514306191717-452ec28c7814?auto=format&fit=crop&w=500&q=80" alt="Noche de Monólogos" class="w-full h-full object-cover">
-              </div>
-              <div class="p-3">
-                <h2 class="font-serif text-lg font-bold text-wine leading-snug">
-                  Noche de Monólogos
-                </h2>
-                <p class="mt-1.5 text-[11px] text-wine/80 leading-relaxed line-clamp-3">
-                  Jueves • 7:30 p.m. Tres historias urbanas íntimas interpretadas por talentos locales de Antioquia.
-                </p>
-              </div>
+              <div class="h-28 w-full bg-wine overflow-hidden"><img src="https://images.unsplash.com/photo-1514306191717-452ec28c7814?auto=format&fit=crop&w=500&q=80" alt="Noche de Monólogos" class="w-full h-full object-cover"></div>
+              <div class="p-3"><h2 class="font-serif text-lg font-bold text-wine leading-snug">Noche de Monólogos</h2><p class="mt-1.5 text-[11px] text-wine/80 leading-relaxed line-clamp-3">Jueves • 7:30 p.m. Tres historias urbanas íntimas interpretadas por talentos locales de Antioquia.</p></div>
             </div>
-            <div class="px-3 pb-3 flex justify-end">
-              <button onclick="openModal('Noche de Monólogos', 'Jueves • 7:30 p.m.', 'Café Teatro • Boletas desde $35.000 COP')" class="text-xs font-bold text-tobacco hover:text-wine tracking-wide transition">
-                ver +
-              </button>
-            </div>
+            <div class="px-3 pb-3 flex justify-end"><button type="button" onclick="openModal('Noche de Monólogos', 'Jueves • 7:30 p.m.', 'Café Teatro • Boletas desde $35.000 COP')" class="text-xs font-bold text-tobacco hover:text-wine tracking-wide transition">ver +</button></div>
           </article>
 
-          <!-- Tarjeta 3 -->
           <article class="min-w-[47%] max-w-[47%] bg-creamLight rounded-xl border border-wine/15 overflow-hidden shadow-sm flex flex-col justify-between">
             <div>
-              <div class="h-28 w-full bg-wine overflow-hidden">
-                <img src="https://images.unsplash.com/photo-1460723237483-7a6dc9d0b212?auto=format&fit=crop&w=500&q=80" alt="Ensamble Nocturno" class="w-full h-full object-cover">
-              </div>
-              <div class="p-3">
-                <h2 class="font-serif text-lg font-bold text-wine leading-snug">
-                  Ensamble Nocturno
-                </h2>
-                <p class="mt-1.5 text-[11px] text-wine/80 leading-relaxed line-clamp-3">
-                  Domingo • 5:00 p.m. Concierto teatralizado con cuerdas y percusión en vivo bajo luz tenue.
-                </p>
-              </div>
+              <div class="h-28 w-full bg-wine overflow-hidden"><img src="https://images.unsplash.com/photo-1460723237483-7a6dc9d0b212?auto=format&fit=crop&w=500&q=80" alt="Ensamble Nocturno" class="w-full h-full object-cover"></div>
+              <div class="p-3"><h2 class="font-serif text-lg font-bold text-wine leading-snug">Ensamble Nocturno</h2><p class="mt-1.5 text-[11px] text-wine/80 leading-relaxed line-clamp-3">Domingo • 5:00 p.m. Concierto teatralizado con cuerdas y percusión en vivo bajo luz tenue.</p></div>
             </div>
-            <div class="px-3 pb-3 flex justify-end">
-              <button onclick="openModal('Ensamble Nocturno', 'Domingo • 5:00 p.m.', 'Sala Principal • Boletas desde $50.000 COP')" class="text-xs font-bold text-tobacco hover:text-wine tracking-wide transition">
-                ver +
-              </button>
-            </div>
+            <div class="px-3 pb-3 flex justify-end"><button type="button" onclick="openModal('Ensamble Nocturno', 'Domingo • 5:00 p.m.', 'Sala Principal • Boletas desde $50.000 COP')" class="text-xs font-bold text-tobacco hover:text-wine tracking-wide transition">ver +</button></div>
           </article>
-
         </div>
 
-        <!-- Flecha Derecha -->
-        <button onclick="scrollCarousel('showsContainer', 220)" aria-label="Siguiente obra" class="p-1 text-wine hover:text-tobacco transition shrink-0 z-10">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
-          </svg>
+        <button type="button" onclick="scrollCarousel('showsContainer', 220)" aria-label="Siguiente obra" class="p-1 text-wine hover:text-tobacco transition shrink-0 z-10">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
         </button>
       </div>
     </section>
 
-    <!-- 5. SECCIÓN INFERIOR DESTACADA (TÍTULO + Imagen/Banner inferior del boceto) -->
-    <section class="mt-8 px-6">
-      <h2 class="font-serif text-2xl font-bold text-wine text-center tracking-wide uppercase">
-        Experiencia en Sala
-      </h2>
+    <section id="experiencia" class="mt-8 px-6">
+      <h2 class="font-serif text-2xl font-bold text-wine text-center tracking-wide uppercase">Experiencia en Sala</h2>
       <div class="mt-3 relative rounded-2xl overflow-hidden border-2 border-tobacco/60 shadow-md h-44 bg-wine">
-        <img 
-          src="https://images.unsplash.com/photo-1516307365426-bea591f05011?auto=format&fit=crop&w=900&q=80" 
-          alt="Butacas y arquitectura del teatro" 
-          class="w-full h-full object-cover opacity-80"
-        >
+        <img src="https://images.unsplash.com/photo-1516307365426-bea591f05011?auto=format&fit=crop&w=900&q=80" alt="Butacas y arquitectura del teatro" class="w-full h-full object-cover opacity-80">
         <div class="absolute inset-0 bg-gradient-to-t from-wine via-wine/30 to-transparent flex flex-col justify-end p-4 text-cream">
-          <span class="text-[10px] uppercase tracking-widest text-tobacco font-bold bg-cream px-2 py-0.5 rounded w-fit">
-            Mapa y Ubicación
-          </span>
-          <p class="font-serif text-lg font-semibold mt-1">
-            Cra. 40 # 51-24, Medellín • Cafetería y Parqueadero
-          </p>
+          <span class="text-[10px] uppercase tracking-widest text-tobacco font-bold bg-cream px-2 py-0.5 rounded w-fit">Mapa y Ubicación</span>
+          <p class="font-serif text-lg font-semibold mt-1">Cra. 40 # 51-24, Medellín • Cafetería y Parqueadero</p>
         </div>
       </div>
     </section>
 
-    <!-- Modal Detalle Rápido ("ver +") -->
-    <div id="detailModal" class="hidden fixed inset-0 bg-wine/80 backdrop-blur-xs z-50 flex items-center justify-center p-5">
+    <div id="detailModal" class="hidden fixed inset-0 bg-wine/80 backdrop-blur-sm z-50 flex items-center justify-center p-5">
       <div class="bg-cream border-2 border-tobacco rounded-2xl max-w-sm w-full p-6 shadow-2xl">
-        <div class="flex justify-between items-start">
+        <div class="flex justify-between items-start gap-4">
           <h3 id="modalTitle" class="font-serif text-2xl font-bold text-wine">Título de la obra</h3>
-          <button onclick="closeModal()" class="text-wine/70 hover:text-wine font-bold text-lg">✕</button>
+          <button type="button" onclick="closeModal()" aria-label="Cerrar" class="text-wine/70 hover:text-wine font-bold text-lg">✕</button>
         </div>
         <p id="modalSchedule" class="text-xs font-semibold text-tobacco uppercase tracking-wider mt-1"></p>
         <p id="modalInfo" class="text-sm text-wine/90 mt-3 leading-relaxed"></p>
-        <div class="mt-6 flex gap-3">
-          <button onclick="closeModal()" class="w-full py-2.5 rounded-full bg-wine text-cream text-xs font-semibold uppercase tracking-wider hover:bg-tobacco transition">
-            Reservar Boleta
-          </button>
-        </div>
+        <button type="button" onclick="closeModal()" class="mt-6 w-full py-2.5 rounded-full bg-wine text-cream text-xs font-semibold uppercase tracking-wider hover:bg-tobacco transition">Reservar Boleta</button>
       </div>
     </div>
-
   </div>
 
   <script>
-    // Desplazamiento horizontal para carruseles
     function scrollCarousel(containerId, amount) {
       const container = document.getElementById(containerId);
-      container.scrollBy({ left: amount, behavior: 'smooth' });
+      if (container) container.scrollBy({ left: amount, behavior: 'smooth' });
     }
 
-    // Selección activa de píldoras de categoría
     const pills = document.querySelectorAll('.filter-pill');
     pills.forEach(pill => {
       pill.addEventListener('click', () => {
@@ -287,25 +183,43 @@
       });
     });
 
-    // Control del menú móvil
     const menuBtn = document.getElementById('menuBtn');
     const closeMenuBtn = document.getElementById('closeMenuBtn');
     const mobileMenu = document.getElementById('mobileMenu');
 
-    menuBtn.addEventListener('click', () => mobileMenu.classList.remove('hidden'));
-    closeMenuBtn.addEventListener('click', () => mobileMenu.classList.add('hidden'));
+    menuBtn.addEventListener('click', () => {
+      mobileMenu.classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+    });
+    closeMenuBtn.addEventListener('click', () => {
+      mobileMenu.classList.add('hidden');
+      document.body.style.overflow = '';
+    });
 
-    // Control del modal "ver +"
     function openModal(title, schedule, info) {
       document.getElementById('modalTitle').textContent = title;
       document.getElementById('modalSchedule').textContent = schedule;
       document.getElementById('modalInfo').textContent = info;
       document.getElementById('detailModal').classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
     }
 
     function closeModal() {
       document.getElementById('detailModal').classList.add('hidden');
+      document.body.style.overflow = '';
     }
+
+    document.getElementById('detailModal').addEventListener('click', event => {
+      if (event.target.id === 'detailModal') closeModal();
+    });
+
+    document.addEventListener('keydown', event => {
+      if (event.key === 'Escape') {
+        closeModal();
+        mobileMenu.classList.add('hidden');
+        document.body.style.overflow = '';
+      }
+    });
   </script>
 </body>
 </html>

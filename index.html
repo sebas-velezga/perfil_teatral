@@ -38,7 +38,7 @@
     .pills::after { flex-basis:var(--genre-end-space,0px); }
     .no-scrollbar::-webkit-scrollbar { display:none; }
     .no-scrollbar { -ms-overflow-style:none; scrollbar-width:none; }
-    .filter-pill { flex:none; scroll-snap-align:center; border:1px solid rgba(74,29,43,.4); border-radius:999px; background:transparent; color:var(--wine); padding:9px 22px; font-size:14px; font-weight:600; white-space:nowrap; opacity:.22; filter:blur(2px); transition:opacity .25s ease,filter .25s ease,background .25s ease,color .25s ease; }
+    .filter-pill { flex:none; scroll-snap-align:center; border:1px solid rgba(74,29,43,.4); border-radius:999px; background:transparent; color:var(--wine); padding:9px 22px; font-size:14px; font-weight:600; white-space:nowrap; opacity:.22; filter:blur(2px); transition:.25s ease; }
     .filter-pill.active { background:var(--wine); color:var(--cream); border-color:var(--wine); opacity:1; filter:none; position:relative; z-index:1; }
     .arrow { flex:none; border:0; background:transparent; color:var(--wine); width:32px; height:32px; display:flex; align-items:center; justify-content:center; }
     .arrow svg { width:24px; height:24px; }
@@ -77,7 +77,6 @@
     #modalInfo { margin:12px 0 0; font-size:14px; line-height:1.7; }
     .reserve { width:100%; margin-top:24px; border:0; border-radius:999px; background:var(--wine); color:var(--cream); padding:10px 16px; font-size:12px; font-weight:700; text-transform:uppercase; }
     .reserve:hover { background:var(--tobacco); }
-    @media (max-width:380px) { .pills-section { padding:0 10px; } .pills { gap:10px; } .filter-pill { padding:8px 16px; font-size:13px; } }
   </style>
 </head>
 <body>
@@ -112,11 +111,7 @@
 
     <section class="shows-section"><div class="shows-row">
       <button type="button" class="arrow" onclick="scrollCarousel('showsContainer', -220)" aria-label="Obra anterior"><svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg></button>
-      <div id="showsContainer" class="shows no-scrollbar">
-        <article class="show-card"><div><div class="show-image"><img src="https://images.unsplash.com/photo-1507676184212-d03ab07a01bf?auto=format&fit=crop&w=500&q=80" alt="La Casa de Bernarda"></div><div class="show-body"><h2>La Casa de Bernarda</h2><p>Viernes y sábado • 8:00 p.m. Drama clásico contemporáneo sobre la libertad y el encierro familiar.</p></div></div><div class="show-action"><button type="button" onclick="openModal('La Casa de Bernarda', 'Viernes y sábado • 8:00 p.m.', 'Sala Principal • Boletas desde $45.000 COP')">ver +</button></div></article>
-        <article class="show-card"><div><div class="show-image"><img src="https://images.unsplash.com/photo-1514306191717-452ec28c7814?auto=format&fit=crop&w=500&q=80" alt="Noche de Monólogos"></div><div class="show-body"><h2>Noche de Monólogos</h2><p>Jueves • 7:30 p.m. Tres historias urbanas íntimas interpretadas por talentos locales de Antioquia.</p></div></div><div class="show-action"><button type="button" onclick="openModal('Noche de Monólogos', 'Jueves • 7:30 p.m.', 'Café Teatro • Boletas desde $35.000 COP')">ver +</button></div></article>
-        <article class="show-card"><div><div class="show-image"><img src="https://images.unsplash.com/photo-1460723237483-7a6dc9d0b212?auto=format&fit=crop&w=500&q=80" alt="Ensamble Nocturno"></div><div class="show-body"><h2>Ensamble Nocturno</h2><p>Domingo • 5:00 p.m. Concierto teatralizado con cuerdas y percusión en vivo bajo luz tenue.</p></div></div><div class="show-action"><button type="button" onclick="openModal('Ensamble Nocturno', 'Domingo • 5:00 p.m.', 'Sala Principal • Boletas desde $50.000 COP')">ver +</button></div></article>
-      </div>
+      <div id="showsContainer" class="shows no-scrollbar"></div>
       <button type="button" class="arrow" onclick="scrollCarousel('showsContainer', 220)" aria-label="Siguiente obra"><svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg></button>
     </div></section>
 
@@ -126,67 +121,92 @@
   </div>
 
   <script>
+    const catalog = {
+      "Musical": [
+        {title:"La Luz de Broadway", schedule:"Viernes y sábado • 8:00 p.m.", info:"Sala Principal • Boletas desde $48.000 COP", description:"Un viaje musical entre sueños, rivalidades y el brillo de una gran producción.", image:"https://images.unsplash.com/photo-1507676184212-d03ab07a01bf?auto=format&fit=crop&w=600&q=80"},
+        {title:"Café de Medianoche", schedule:"Jueves • 7:30 p.m.", info:"Teatro Café • Boletas desde $40.000 COP", description:"Canciones originales y romances urbanos bajo la luz de una cafetería nocturna.", image:"https://images.unsplash.com/photo-1514306191717-452ec28c7814?auto=format&fit=crop&w=600&q=80"},
+        {title:"Cuatro voces", schedule:"Domingo • 5:30 p.m.", info:"Sala Alterna • Boletas desde $38.000 COP", description:"Cuatro historias se entrelazan en un espectáculo coral lleno de ritmo.", image:"https://images.unsplash.com/photo-1506157786151-b8491531f063?auto=format&fit=crop&w=600&q=80"}
+      ],
+      "Terror": [
+        {title:"La Mansión de Velázquez", schedule:"Viernes • 9:00 p.m.", info:"Sala Principal • Boletas desde $52.000 COP", description:"Una familia descubre que la antigua mansión conserva secretos más vivos que sus habitantes.", image:"https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=600&q=80"},
+        {title:"Eco en la Oscuridad", schedule:"Sábado • 8:30 p.m.", info:"Teatro Negro • Boletas desde $46.000 COP", description:"Cada susurro revela una puerta y cada puerta conduce a un pasado imposible.", image:"https://images.unsplash.com/photo-1509248961158-e54f6934749c?auto=format&fit=crop&w=600&q=80"},
+        {title:"El Último Invitado", schedule:"Miércoles • 8:00 p.m.", info:"Sala Alterna • Boletas desde $42.000 COP", description:"Una cena elegante se convierte en una trampa entre muertos y supervivientes.", image:"https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=600&q=80"}
+      ],
+      "Drama": [
+        {title:"La Casa de Bernarda", schedule:"Viernes y sábado • 8:00 p.m.", info:"Sala Principal • Boletas desde $45.000 COP", description:"Drama clásico contemporáneo sobre la libertad y el encierro familiar.", image:"https://images.unsplash.com/photo-1507676184212-d03ab07a01bf?auto=format&fit=crop&w=600&q=80"},
+        {title:"Cartas a la Ciudad", schedule:"Jueves • 7:30 p.m.", info:"Sala Alterna • Boletas desde $36.000 COP", description:"Tres generaciones escriben sus decisiones a una ciudad que cambia sin esperar.", image:"https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=600&q=80"},
+        {title:"El Jardín de Julia", schedule:"Domingo • 6:00 p.m.", info:"Café Teatro • Boletas desde $34.000 COP", description:"Una obra íntima sobre memoria, perdón y los lazos que crecen después de la ausencia.", image:"https://images.unsplash.com/photo-1497250681960-ef046c08a56e?auto=format&fit=crop&w=600&q=80"}
+      ],
+      "Ballet": [
+        {title:"El Lago de los Cisnes", schedule:"Viernes y sábado • 7:00 p.m.", info:"Sala Principal • Boletas desde $58.000 COP", description:"El clásico ballet de Tchaikovsky sobre el amor, la ilusión y la eterna transformación.", image:"https://images.unsplash.com/photo-1518837695005-2083093ee35b?auto=format&fit=crop&w=600&q=80"},
+        {title:"Carmen, la Danza", schedule:"Domingo • 5:00 p.m.", info:"Sala Principal • Boletas desde $54.000 COP", description:"Un ballet apasionado inspirado en los destinos ardientes y libres de Sevilla.", image:"https://images.unsplash.com/photo-1547153760-18fc86324498?auto=format&fit=crop&w=600&q=80"},
+        {title:"Sueño de Primavera", schedule:"Jueves • 7:30 p.m.", info:"Estudio Escénico • Boletas desde $44.000 COP", description:"Una coreografía contemporánea que celebra la naturaleza y el renacimiento.", image:"https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?auto=format&fit=crop&w=600&q=80"}
+      ],
+      "Ópera": [
+        {title:"La Traviata", schedule:"Viernes • 7:30 p.m.", info:"Gran Sala • Boletas desde $65.000 COP", description:"La obra de Verdi narrada por un elenco lírico en una puesta escénica de gran formato.", image:"https://images.unsplash.com/photo-1460723237483-7a6dc9d0b212?auto=format&fit=crop&w=600&q=80"},
+        {title:"Noches en Sevilla", schedule:"Sábado • 7:00 p.m.", info:"Gran Sala • Boletas desde $62.000 COP", description:"Un recorrido lírico por amores, celos y noches llenas de guitarra y canto.", image:"https://images.unsplash.com/photo-1516280440614-37939bbacd81?auto=format&fit=crop&w=600&q=80"},
+        {title:"La Flauta Encantada", schedule:"Domingo • 4:30 p.m.", info:"Sala Principal • Boletas desde $56.000 COP", description:"Una fantasía mozartiana sobre pruebas, amistad y luz frente a la oscuridad.", image:"https://images.unsplash.com/photo-1583394838336-acd977736f90?auto=format&fit=crop&w=600&q=80"}
+      ],
+      "Stand Up Comedy": [
+        {title:"Risas al Parecer", schedule:"Viernes • 9:00 p.m.", info:"Café Teatro • Boletas desde $38.000 COP", description:"Cinco comediantes locales cuentan historias absurdas sobre trabajo y relaciones.", image:"https://images.unsplash.com/photo-1527224538127-2104bb71c51b?auto=format&fit=crop&w=600&q=80"},
+        {title:"Examen de Conciencia", schedule:"Sábado • 8:30 p.m.", info:"Sala Alterna • Boletas desde $40.000 COP", description:"Un monólogo ágil sobre errores modernos, familiares y decisiones repentinas.", image:"https://images.unsplash.com/photo-1585699324551-f6c309eedeca?auto=format&fit=crop&w=600&q=80"},
+        {title:"Sin Señal", schedule:"Miércoles • 7:30 p.m.", info:"Café Teatro • Boletas desde $32.000 COP", description:"Entre pantallas, memes y conversaciones inexistentes, la tecnología pierde el control.", image:"https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=600&q=80"}
+      ]
+    };
+
     const genrePills = Array.from(document.querySelectorAll('.filter-pill'));
     const pillsContainer = document.getElementById('pillsContainer');
+    const showsContainer = document.getElementById('showsContainer');
     let selectedGenre = 0;
+
+    function escapeHtml(value) { const div=document.createElement('div'); div.textContent=value; return div.innerHTML; }
+
+    function renderShows(genre) {
+      showsContainer.innerHTML = catalog[genre].map(show => {
+        const title = escapeHtml(show.title);
+        const schedule = escapeHtml(show.schedule);
+        const info = escapeHtml(show.info);
+        const description = escapeHtml(show.description);
+        return `<article class="show-card"><div><div class="show-image"><img src="${show.image}" alt="${title}"></div><div class="show-body"><h2>${title}</h2><p>${schedule}. ${description}</p></div></div><div class="show-action"><button type="button" onclick="openModal('${title}', '${schedule}', '${info}')">ver +</button></div></article>`;
+      }).join('');
+      showsContainer.scrollTo({left:0, behavior:'smooth'});
+    }
 
     function updateGenreSpacers() {
       if (!genrePills.length || !pillsContainer.clientWidth) return;
       const firstWidth = genrePills[0].getBoundingClientRect().width;
       const lastWidth = genrePills[genrePills.length - 1].getBoundingClientRect().width;
       const gap = parseFloat(getComputedStyle(pillsContainer).columnGap) || 0;
-      const start = Math.max(0, (pillsContainer.clientWidth - firstWidth) / 2 - gap);
-      const end = Math.max(0, (pillsContainer.clientWidth - lastWidth) / 2 - gap);
-      pillsContainer.style.setProperty('--genre-start-space', start + 'px');
-      pillsContainer.style.setProperty('--genre-end-space', end + 'px');
+      const start = Math.max(0,(pillsContainer.clientWidth-firstWidth)/2-gap);
+      const end = Math.max(0,(pillsContainer.clientWidth-lastWidth)/2-gap);
+      pillsContainer.style.setProperty('--genre-start-space',start+'px');
+      pillsContainer.style.setProperty('--genre-end-space',end+'px');
     }
 
     function centerGenre(index) {
-      if (!genrePills.length) return;
-      selectedGenre = (index + genrePills.length) % genrePills.length;
-      genrePills.forEach((pill, i) => {
-        const selected = i === selectedGenre;
-        pill.classList.toggle('active', selected);
-        pill.setAttribute('aria-pressed', String(selected));
-      });
+      selectedGenre=(index+genrePills.length)%genrePills.length;
+      genrePills.forEach((pill,i)=>{const selected=i===selectedGenre;pill.classList.toggle('active',selected);pill.setAttribute('aria-pressed',String(selected));});
+      const genre=genrePills[selectedGenre].textContent.trim();
+      renderShows(genre);
       updateGenreSpacers();
-      requestAnimationFrame(() => {
-        const pillRect = genrePills[selectedGenre].getBoundingClientRect();
-        const containerRect = pillsContainer.getBoundingClientRect();
-        const pillCenter = pillRect.left + pillRect.width / 2;
-        const containerCenter = containerRect.left + containerRect.width / 2;
-        pillsContainer.scrollTo({ left: pillsContainer.scrollLeft + pillCenter - containerCenter, behavior:'smooth' });
-      });
+      requestAnimationFrame(()=>{const pillRect=genrePills[selectedGenre].getBoundingClientRect();const containerRect=pillsContainer.getBoundingClientRect();pillsContainer.scrollTo({left:pillsContainer.scrollLeft+pillRect.left+pillRect.width/2-(containerRect.left+containerRect.width/2),behavior:'smooth'});});
     }
 
-    function moveGenre(direction) { centerGenre(selectedGenre + direction); }
-    genrePills.forEach((pill, index) => pill.addEventListener('click', () => centerGenre(index)));
-    window.addEventListener('load', () => centerGenre(selectedGenre));
-    window.addEventListener('resize', () => centerGenre(selectedGenre));
+    function moveGenre(direction) { centerGenre(selectedGenre+direction); }
+    genrePills.forEach((pill,index)=>pill.addEventListener('click',()=>centerGenre(index)));
+    window.addEventListener('load',()=>centerGenre(selectedGenre));
+    window.addEventListener('resize',()=>centerGenre(selectedGenre));
 
-    function scrollCarousel(containerId, amount) {
-      const container = document.getElementById(containerId);
-      if (container) container.scrollBy({ left:amount, behavior:'smooth' });
-    }
+    function scrollCarousel(containerId,amount) { const container=document.getElementById(containerId);if(container)container.scrollBy({left:amount,behavior:'smooth'}); }
 
-    const menuBtn = document.getElementById('menuBtn');
-    const closeMenuBtn = document.getElementById('closeMenuBtn');
-    const mobileMenu = document.getElementById('mobileMenu');
-    menuBtn.addEventListener('click', () => { mobileMenu.classList.remove('hidden'); document.body.style.overflow='hidden'; });
-    closeMenuBtn.addEventListener('click', () => { mobileMenu.classList.add('hidden'); document.body.style.overflow=''; });
+    const menuBtn=document.getElementById('menuBtn'),closeMenuBtn=document.getElementById('closeMenuBtn'),mobileMenu=document.getElementById('mobileMenu');
+    menuBtn.addEventListener('click',()=>{mobileMenu.classList.remove('hidden');document.body.style.overflow='hidden';});
+    closeMenuBtn.addEventListener('click',()=>{mobileMenu.classList.add('hidden');document.body.style.overflow='';});
 
-    function openModal(title, schedule, info) {
-      document.getElementById('modalTitle').textContent = title;
-      document.getElementById('modalSchedule').textContent = schedule;
-      document.getElementById('modalInfo').textContent = info;
-      document.getElementById('detailModal').classList.remove('hidden');
-      document.body.style.overflow='hidden';
-    }
-    function closeModal() { document.getElementById('detailModal').classList.add('hidden'); document.body.style.overflow=''; }
-    document.getElementById('detailModal').addEventListener('click', event => { if (event.target.id === 'detailModal') closeModal(); });
-    document.addEventListener('keydown', event => {
-      if (event.key === 'Escape') { closeModal(); mobileMenu.classList.add('hidden'); document.body.style.overflow=''; }
-    });
+    function openModal(title,schedule,info) { document.getElementById('modalTitle').textContent=title;document.getElementById('modalSchedule').textContent=schedule;document.getElementById('modalInfo').textContent=info;document.getElementById('detailModal').classList.remove('hidden');document.body.style.overflow='hidden'; }
+    function closeModal() { document.getElementById('detailModal').classList.add('hidden');document.body.style.overflow=''; }
+    document.getElementById('detailModal').addEventListener('click',event=>{if(event.target.id==='detailModal')closeModal();});
+    document.addEventListener('keydown',event=>{if(event.key==='Escape'){closeModal();mobileMenu.classList.add('hidden');document.body.style.overflow='';}});
   </script>
 </body>
 </html>
